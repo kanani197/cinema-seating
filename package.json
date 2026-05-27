@@ -1,0 +1,16 @@
+{
+  "name": "cinema-seating-optimisation",
+  "version": "1.0.0",
+  "description": "Cinema Seating Optimisation System — MERN Stack (ATSE A3)",
+  "private": true,
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "start": "cd backend && npm start",
+    "test": "cd backend && npm test",
+    "build": "cd frontend && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

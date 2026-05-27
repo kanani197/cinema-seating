@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:      #0a0a0f;
+  --surface: #12121a;
+  --card:    #1a1a26;
+  --border:  #2a2a3e;
+  --accent:  #e8b84b;
+  --text:    #e2e8f0;
+  --muted:   #64748b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  margin: 0; padding: 0;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Seat animations */
+.seat-btn {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* Screen glow */
+.screen-glow {
+  box-shadow: 0 0 30px rgba(59,130,246,0.12), 0 0 60px rgba(59,130,246,0.05);
+}
+
+/* Card hover */
+.card-hover {
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.card-hover:hover {
+  border-color: rgba(232,184,75,0.25) !important;
+  box-shadow: 0 0 20px rgba(232,184,75,0.06);
+  transform: translateY(-1px);
+}
+
+/* Spinner animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin {
+  animation: spin 0.7s linear infinite;
+}
+
+/* Range input */
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #2a2a3e;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#e8b84b,#c89530);
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(232,184,75,0.4);
+}
+
+/* Select styling */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 10px center;
+  background-repeat: no-repeat;
+  background-size: 14px;
+  padding-right: 32px !important;
+}
+
+/* Focus rings */
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(232,184,75,0.2);
+  border-color: rgba(232,184,75,0.4) !important;
+}
+
+/* Toast notification fade */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.notification-enter { animation: fadeInDown 0.25s ease; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .seat-btn { width: 14px !important; height: 12px !important; font-size: 6px !important; }
+}
