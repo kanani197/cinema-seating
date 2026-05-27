@@ -29,22 +29,14 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || 'Internal Server Error' });
 });
 
-/**
- * Drop stale / mismatched indexes from MongoDB collections.
- * This fixes the E11000 duplicate key error caused by old index definitions
- * (e.g. an index on `seatNumber` when the schema field is now `number`).
- * We drop ALL non-_id indexes and let Mongoose recreate the correct ones.
- */
 async function fixIndexes() {
   try {
     const db = mongoose.connection.db;
 
-    // Fix seats collection
     const seatsCol = db.collection('seats');
     const seatIndexes = await seatsCol.indexes();
     for (const idx of seatIndexes) {
       if (idx.name === '_id_') continue; // never drop _id
-      // Drop any index that has the old `seatNumber` field or is otherwise stale
       const fields = Object.keys(idx.key || {});
       const hasOldField = fields.includes('seatNumber');
       const hasMissingField = fields.some(f => !['row','number','sessionId','_id'].includes(f) && f !== '__v');
@@ -60,13 +52,10 @@ async function fixIndexes() {
       { unique: true, name: 'row_number_sessionId_unique' }
     );
     console.log('✅ Seat indexes verified');
-
-    // Fix bookings collection - drop any stale indexes
     const bookingsCol = db.collection('bookings');
     const bookingIndexes = await bookingsCol.indexes();
     for (const idx of bookingIndexes) {
       if (idx.name === '_id_') continue;
-      // Keep only known-good indexes
       const validNames = ['bookingRef_unique', 'userId_createdAt', 'guestId_createdAt', 'sessionId_status'];
       if (!validNames.includes(idx.name) && idx.name !== '_id_') {
         console.log(`🔧 Dropping stale booking index "${idx.name}"`);

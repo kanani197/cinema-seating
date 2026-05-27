@@ -58,7 +58,6 @@ async function getOrInitSeats(sessionId, minAvailable = 10) {
 /**
  * POST /api/bookings/book
  * Books seats using the optimisation algorithm.
- * NEVER returns a 409 rejection for a fixable stale-DB issue.
  */
 router.post('/book', optionalAuth, async (req, res) => {
   try {
@@ -88,7 +87,6 @@ router.post('/book', optionalAuth, async (req, res) => {
 
     if (result.error) {
       // If algorithm still fails on a fresh layout, it genuinely can't be done
-      // (e.g. groupSize=7 but only 6 seats in accessible zone)
       const analysis = analyseRejection(seats, size, wantsVip, needsAccessible);
       return res.status(409).json({
         error:     result.error,

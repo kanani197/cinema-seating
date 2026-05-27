@@ -4,19 +4,14 @@ const Seat    = require('../models/Seat');
 const { buildCinemaLayout } = require('../utils/layoutBuilder');
 const { calculateFragmentation } = require('../utils/seatAlgorithm');
 
-/**
- * Safely insert seats — if duplicate key error (stale indexes), drop+recreate and retry.
- */
 async function safeInsertSeats(layout) {
   try {
     return await Seat.insertMany(layout, { ordered: false });
   } catch (err) {
     if (err.code === 11000 || (err.writeErrors && err.writeErrors.length > 0)) {
-      // Duplicate key — return what was inserted (partial), or re-fetch
       const sessionId = layout[0]?.sessionId || 'default';
       const existing  = await Seat.find({ sessionId });
       if (existing.length > 0) return existing;
-      // Try dropping stale indexes and re-inserting
       try {
         const col = Seat.collection;
         const indexes = await col.indexes();

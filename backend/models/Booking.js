@@ -1,12 +1,5 @@
 const mongoose = require('mongoose');
 
-/**
- * IMPORTANT: Mongoose reserves `type` as a schema keyword.
- * Writing [{ row: String, number: Number, type: String }] makes Mongoose
- * treat the whole subdocument as type String — causing CastError.
- * Fix: wrap each field explicitly with { type: ... } syntax,
- * and use a named sub-schema with _id: false to avoid the conflict.
- */
 const SeatRefSchema = new mongoose.Schema({
   row:      { type: String },
   number:   { type: Number },

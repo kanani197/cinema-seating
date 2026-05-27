@@ -1,10 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-/**
- * Protect routes — verifies JWT from Authorization header.
- * Attaches req.user on success.
- */
 const protect = async (req, res, next) => {
   let token;
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
@@ -28,10 +24,6 @@ const protect = async (req, res, next) => {
   }
 };
 
-/**
- * Restrict to specific roles.
- * Usage: restrictTo('admin')
- */
 const restrictTo = (...roles) => (req, res, next) => {
   if (!roles.includes(req.user.role)) {
     return res.status(403).json({ error: 'You do not have permission to perform this action.' });
@@ -39,9 +31,6 @@ const restrictTo = (...roles) => (req, res, next) => {
   next();
 };
 
-/**
- * Optional auth — attaches user if token present, but does NOT block if absent.
- */
 const optionalAuth = async (req, res, next) => {
   let token;
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {

@@ -16,12 +16,10 @@ const {
 } = require('../utils/seatAlgorithm');
 const { buildInMemoryLayout } = require('../utils/layoutBuilder');
 
-// Helper: build a fresh in-memory layout
 function freshLayout() {
   return buildInMemoryLayout('test');
 }
 
-// Helper: mark specific seats as booked
 function markBooked(seats, toBook) {
   return seats.map(s => {
     const match = toBook.find(b => b.row === s.row && b.number === s.number);
@@ -64,26 +62,19 @@ describe('Seat Allocation - Group Seating', () => {
 
 describe('Orphan Gap Prevention', () => {
   test('does not create an isolated single seat gap', () => {
-    // Book seats 1–3 and 5–28 in row G — only seat 4 remains (isolated)
-    // Algorithm should avoid such allocations
     const seats = freshLayout();
-    // Manually book to create pressure
     const crowded = markBooked(seats, [
       { row: 'G', number: 1 },
       { row: 'G', number: 2 },
       { row: 'G', number: 3 },
     ]);
-    // Now try to book 2 seats — should not book 4 and 5 if that leaves 4 isolated
     const result = allocateSeats(crowded, 2);
     expect(result.error).toBeUndefined();
-    // Result should not create an orphan (score would be negative if it did)
     expect(result.score).toBeGreaterThan(-5);
   });
 
   test('score is lower when booking creates orphan gap', () => {
-    // Both scenarios: one creates orphan, one does not
     const seats = freshLayout();
-    // Just check algorithm runs without errors
     const r1 = allocateSeats(seats, 3);
     const r2 = allocateSeats(seats, 1);
     expect(r1.score).toBeGreaterThanOrEqual(r2.score - 20); // Groups score higher
@@ -136,8 +127,6 @@ describe('Fragmentation Score', () => {
   test('fresh cinema has very low fragmentation (broken seats may create 1-2 isolated gaps)', () => {
     const seats = freshLayout();
     const { fragmentationScore, isolatedCount } = calculateFragmentation(seats);
-    // Broken seats (6-10 per session) may leave 1-2 isolated available seats
-    // A fragmentation score of 0-5% is acceptable on a fresh layout
     expect(fragmentationScore).toBeLessThan(10);
     expect(isolatedCount).toBeLessThanOrEqual(10);
   });
@@ -150,7 +139,6 @@ describe('Fragmentation Score', () => {
 
   test('isolated single seat is detected', () => {
     const seats = freshLayout();
-    // Create an isolated seat: book everything in row G except seat 10
     const g = seats.filter(s => s.row === 'G').map(s =>
       s.number !== 10 ? { ...s, status: 'booked' } : s
     );
@@ -219,10 +207,8 @@ describe('analyseRejection', () => {
   });
 
   test('nearly full cinema returns alternatives of smaller size', () => {
-    // Book everything except a few scattered seats to force orphan-only scenario
     const seats = require('../utils/layoutBuilder').buildInMemoryLayout('test');
     const analysis = analyseRejection(seats, 7);
-    // Either finds a valid block or provides alternatives
     expect(analysis).toHaveProperty('reason');
   });
 });

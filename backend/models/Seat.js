@@ -43,14 +43,11 @@ const seatSchema = new mongoose.Schema({
     required: true,
     default: 'default'
   },
-  // Score used by the optimisation algorithm
   qualityScore: {
     type: Number,
     default: 0
   }
 }, { timestamps: true });
-
-// Compound index for fast seat lookups
 seatSchema.index({ row: 1, number: 1, sessionId: 1 }, { unique: true, name: 'row_number_sessionId_unique' });
 
 module.exports = mongoose.model('Seat', seatSchema);
