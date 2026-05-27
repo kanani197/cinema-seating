@@ -20,7 +20,7 @@ export default function HomePage() {
         <div className="inline-block mb-4 px-4 py-1 rounded-full text-xs font-medium"
              style={{ background: 'rgba(232,184,75,0.1)', color: '#e8b84b',
                       border: '1px solid rgba(232,184,75,0.2)' }}>
-          Advanced Topics in Software Engineering · A3
+          {/* Advanced Topics in Software Engineering · A3 */}
         </div>
         <h1 style={{ fontFamily: '"DM Serif Display",serif',
                      fontSize: 'clamp(2rem,5vw,3.2rem)', color: '#f1f5f9',
