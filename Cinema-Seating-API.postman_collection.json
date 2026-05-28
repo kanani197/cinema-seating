@@ -1,0 +1,296 @@
+{
+  "info": {
+    "name": "Cinema Seating Optimisation API",
+    "_postman_id": "a1b2c3d4-e5f6-7890",
+    "description": "Postman collection for Cinema Seating Optimisation System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+
+  "item": [
+
+    {
+      "name": "Register Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test Customer\",\n  \"email\": \"customer@gmail.com\",\n  \"password\": \"Password123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+
+    {
+      "name": "Register Admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@cinema.com\",\n  \"password\": \"Password123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/register",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "auth", "register"]
+        }
+      }
+    },
+
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@cinema.com\",\n  \"password\": \"Password123\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "auth", "login"]
+        }
+      }
+    },
+
+    {
+      "name": "Get Seats",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:5000/api/seats",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "seats"]
+        }
+      }
+    },
+
+    {
+      "name": "Customer Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_TOKEN"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"groupSize\": 4,\n  \"seatPreference\": \"regular\",\n  \"customerName\": \"John\",\n  \"customerEmail\": \"customer@gmail.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/bookings/book",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "bookings", "book"]
+        }
+      }
+    },
+
+    {
+      "name": "Solo Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"groupSize\": 1,\n  \"seatPreference\": \"regular\",\n  \"customerName\": \"Solo User\",\n  \"customerEmail\": \"solo@gmail.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/bookings/book",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "bookings", "book"]
+        }
+      }
+    },
+
+    {
+      "name": "Guest Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"groupSize\": 2,\n  \"guestId\": \"guest_12345\",\n  \"userType\": \"guest\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/bookings/book",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "bookings", "book"]
+        }
+      }
+    },
+
+    {
+      "name": "Get My Bookings",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_TOKEN"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/bookings/my-bookings",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "bookings", "my-bookings"]
+        }
+      }
+    },
+
+    {
+      "name": "Admin Analytics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer ADMIN_TOKEN"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/admin/stats",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "admin", "stats"]
+        }
+      }
+    },
+
+    {
+      "name": "Generate Broken Seats",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer ADMIN_TOKEN"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/admin/generate-broken",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "admin", "generate-broken"]
+        }
+      }
+    },
+
+    {
+      "name": "Reset Cinema",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer ADMIN_TOKEN"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5000/api/admin/reset",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "admin", "reset"]
+        }
+      }
+    },
+
+    {
+      "name": "50 Percent Simulation",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:5000/api/simulation/50",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "simulation", "50"]
+        }
+      }
+    },
+
+    {
+      "name": "75 Percent Simulation",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:5000/api/simulation/75",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "simulation", "75"]
+        }
+      }
+    },
+
+    {
+      "name": "90 Percent Simulation",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:5000/api/simulation/90",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["api", "simulation", "90"]
+        }
+      }
+    }
+
+  ]
+}
